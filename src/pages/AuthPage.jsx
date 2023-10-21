@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil"
 
 export const AuthPage = () => {
     const authScreenState=useRecoilValue(authScreenAtom)
-    console.log(authScreenState)
+    // console.log(authScreenState)
     return (
       <>{authScreenState==='login'?<LoginCard />:<SignupCard />}</>
     )

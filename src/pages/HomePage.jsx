@@ -1,6 +1,5 @@
 import { Button, Flex, Spinner } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import useShowToast from '../Hooks/useShowToast'
 import Posts from "../components/Posts"
 import { useRecoilState } from "recoil"
@@ -20,8 +19,8 @@ export const HomePage = () => {
         if (data.error) {
           showToast("Error", data.error, 'error')
         }
-        // console.log(data)
         setPosts(data)
+        // console.log(typeof(posts))
       } catch (error) {
         showToast('Error', error, 'error')
       } finally {
@@ -30,7 +29,7 @@ export const HomePage = () => {
     }
     getFeedPosts()
   }, [showToast, setPosts])
-
+  
   return (
     <>
       {!loading && posts.length === 0 && <h1>Follow some users</h1>}
@@ -39,6 +38,7 @@ export const HomePage = () => {
           <Spinner size='xl' />
         </Flex>
       )}
+
       {posts.map((post) => (
         <Posts key={post._id} post={post} postedBy={post.postedBy} />
       ))}

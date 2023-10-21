@@ -27,8 +27,6 @@ const UserHeader = ({ user }) => {
     }
 
     const handleFollowUnfollow = async () => {
-        console.log(currrentUser?._id)
-        console.log(user._id)
         if (!currrentUser) {
             showToast("Error", 'Please Login First', 'error')
         }
