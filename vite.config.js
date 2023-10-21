@@ -11,8 +11,8 @@ export default defineConfig({
     //get rid of CORS error
     proxy:{
       "/api":{
-        // target:'https://trb-pho0.onrender.com/',
-        target:'http://localhost:5000',
+        target:'https://trb-pho0.onrender.com/',
+        // target:'http://localhost:5000',
         changeOrigin:true,
         secure:true
       }
