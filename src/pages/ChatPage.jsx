@@ -8,17 +8,19 @@ import { useEffect, useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { SelectedConversationAtom, conversationAtom } from "../atoms/messageAtoms"
 import userAtom from "../atoms/userAtom"
+import {useSocket} from '../context/SocketContext'
 
 
 
 const ChatPage = () => {
     const showToast = useShowToast()
     const [loadingConversation, setLoadingConversation] = useState(true)
-    const [conversation, setConversation] = useRecoilState(conversationAtom)
+    const [conversations, setConversation] = useRecoilState(conversationAtom)
     const [selectedConversation, setSelectedConversation] = useRecoilState(SelectedConversationAtom)
     const [searchText, setSearchText] = useState()
     const currentUser = useRecoilValue(userAtom)
     const [searchingUser, setSearchingUser] = useState(false)
+    const { socket, onlineUsers } = useSocket()
 
     useEffect(() => {
         const getConversation = async () => {
@@ -39,6 +41,7 @@ const ChatPage = () => {
 
         }
         getConversation()
+        // console.log(onlineUsers)
     }, [showToast, setConversation])
 
     const handleConversationSearch = async (e) => {
@@ -58,9 +61,9 @@ const ChatPage = () => {
             }
 
             //if user was already in conversation
-            if (conversation.find((conversation) => conversation.participants[0]._id === searchedUser._id)) {
+            if (conversations.find((conversation) => conversation.participants[0]._id === searchedUser._id)) {
                 setSelectedConversation({
-                    _id: conversation.find((conversation) => conversation.participants[0]._id === searchedUser._id)._id,
+                    _id: conversations.find((conversation) => conversation.participants[0]._id === searchedUser._id)._id,
                     userid: searchedUser._id,
                     username: searchedUser.username,
                     userProfiePic: searchedUser.profilePic,
@@ -147,8 +150,12 @@ const ChatPage = () => {
                             </Flex>
                         ))}
                     {!loadingConversation &&
-                        conversation.map(conversation => (
-                            <Conversations key={conversation._id} conversation={conversation} />
+                        conversations.map((conversation) => (
+                            <Conversations
+                                key={conversation._id}
+                                isOnline={onlineUsers.includes(conversation.participants[0]._id)}
+                                conversation={conversation}
+                            />
                         ))}
 
                 </Flex>

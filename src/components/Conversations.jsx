@@ -5,7 +5,7 @@ import { useRecoilValue, useRecoilState } from "recoil"
 import { BsCheck2All } from 'react-icons/bs'
 
 
-const Conversations = ({ conversation }) => {
+const Conversations = ({ conversation,isOnline }) => {
     const user = conversation.participants[0]
     const lastMessage = conversation.lastMessage
     const currentUser = useRecoilValue(userAtom)
@@ -38,7 +38,8 @@ const Conversations = ({ conversation }) => {
                     sm: 'sm',
                     md: 'md',
                 }} src={user.profilePic}>
-                    <AvatarBadge boxSize={'1em'} bg='green.500' />
+
+                    {isOnline ? <AvatarBadge boxSize={'1em'} bg='green.500' /> :''}
                 </Avatar>
             </WrapItem>
             <Stack direction={'column'} fontSize={'sm'}>
