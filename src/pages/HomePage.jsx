@@ -18,6 +18,7 @@ export const HomePage = () => {
         const data = await res.json()
         if (data.error) {
           showToast("Error", data.error, 'error')
+          return
         }
         setPosts(data)
         // console.log(typeof(posts))
